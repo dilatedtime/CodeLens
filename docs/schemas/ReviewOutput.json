@@ -1,0 +1,103 @@
+{
+  "$defs": {
+    "FindingOutput": {
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "start_line": {
+          "minimum": 1,
+          "title": "Start Line",
+          "type": "integer"
+        },
+        "end_line": {
+          "minimum": 1,
+          "title": "End Line",
+          "type": "integer"
+        },
+        "category": {
+          "enum": [
+            "bug",
+            "security",
+            "performance",
+            "maintainability",
+            "style"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low",
+            "informational"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "evidence": {
+          "title": "Evidence",
+          "type": "string"
+        },
+        "assumptions": {
+          "default": "",
+          "title": "Assumptions",
+          "type": "string"
+        },
+        "suggested_fix": {
+          "default": "",
+          "title": "Suggested Fix",
+          "type": "string"
+        },
+        "verification_test": {
+          "default": "",
+          "title": "Verification Test",
+          "type": "string"
+        },
+        "rule_id": {
+          "default": "",
+          "title": "Rule Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "start_line",
+        "end_line",
+        "category",
+        "severity",
+        "title",
+        "explanation",
+        "evidence"
+      ],
+      "title": "FindingOutput",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/FindingOutput"
+      },
+      "maxItems": 100,
+      "title": "Findings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "findings"
+  ],
+  "title": "ReviewOutput",
+  "type": "object"
+}

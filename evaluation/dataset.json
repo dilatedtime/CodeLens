@@ -1,0 +1,402 @@
+[
+  {
+    "id": "mutable-list-bug",
+    "split": "development",
+    "files": {
+      "main.py": "def add(item, values=[]):\n    values.append(item)\n    return values\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 1,
+        "end_line": 3,
+        "category": "bug",
+        "issue_type": "mutable-list",
+        "rationale": "Mutable default shares state across calls."
+      }
+    ]
+  },
+  {
+    "id": "mutable-list-clean",
+    "split": "development",
+    "files": {
+      "main.py": "def add(item, values=None):\n    if values is None:\n        values = []\n    values.append(item)\n    return values\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "mutable-dict-bug",
+    "split": "development",
+    "files": {
+      "main.py": "def remember(key, value, store={}):\n    store[key] = value\n    return store\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 1,
+        "end_line": 3,
+        "category": "bug",
+        "issue_type": "mutable-dict",
+        "rationale": "Mutable dictionary persists across calls."
+      }
+    ]
+  },
+  {
+    "id": "mutable-dict-clean",
+    "split": "development",
+    "files": {
+      "main.py": "def remember(key, value, store=None):\n    if store is None:\n        store = {}\n    store[key] = value\n    return store\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "off-by-one-bug",
+    "split": "development",
+    "files": {
+      "main.py": "def total(values):\n    return sum(values[i] for i in range(len(values) + 1))\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 2,
+        "end_line": 2,
+        "category": "bug",
+        "issue_type": "off-by-one",
+        "rationale": "Loop accesses one element past the end."
+      }
+    ]
+  },
+  {
+    "id": "off-by-one-clean",
+    "split": "development",
+    "files": {
+      "main.py": "def total(values):\n    return sum(values)\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "empty-average-bug",
+    "split": "holdout",
+    "files": {
+      "main.py": "def average(values):\n    return sum(values) / len(values)\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 2,
+        "end_line": 2,
+        "category": "bug",
+        "issue_type": "empty-average",
+        "rationale": "Division by zero for an empty input."
+      }
+    ]
+  },
+  {
+    "id": "empty-average-clean",
+    "split": "holdout",
+    "files": {
+      "main.py": "def average(values):\n    if not values:\n        raise ValueError(\"At least one value required\")\n    return sum(values) / len(values)\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "missing-return-bug",
+    "split": "development",
+    "files": {
+      "main.py": "def magnitude(value):\n    if value < 0:\n        return -value\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 2,
+        "end_line": 3,
+        "category": "bug",
+        "issue_type": "missing-return",
+        "rationale": "Positive inputs implicitly return None."
+      }
+    ]
+  },
+  {
+    "id": "missing-return-clean",
+    "split": "development",
+    "files": {
+      "main.py": "def magnitude(value):\n    if value < 0:\n        return -value\n    return value\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "always-true-bug",
+    "split": "development",
+    "files": {
+      "main.py": "def supported(kind):\n    if kind == \"csv\" or \"json\":\n        return True\n    return False\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 2,
+        "end_line": 3,
+        "category": "bug",
+        "issue_type": "always-true",
+        "rationale": "Nonempty string makes the condition always true."
+      }
+    ]
+  },
+  {
+    "id": "always-true-clean",
+    "split": "development",
+    "files": {
+      "main.py": "def supported(kind):\n    return kind in {\"csv\", \"json\"}\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "shell-injection-bug",
+    "split": "development",
+    "files": {
+      "main.py": "import subprocess\ndef list_directory(path):\n    return subprocess.check_output(\"ls \" + path, shell=True)\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 3,
+        "end_line": 3,
+        "category": "security",
+        "issue_type": "shell-injection",
+        "rationale": "Untrusted command text is interpreted by a shell."
+      }
+    ]
+  },
+  {
+    "id": "shell-injection-clean",
+    "split": "development",
+    "files": {
+      "main.py": "from pathlib import Path\ndef list_directory(path):\n    return [item.name for item in Path(path).iterdir()]\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "eval-input-bug",
+    "split": "holdout",
+    "files": {
+      "main.py": "def parse_number(text):\n    return eval(text)\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 2,
+        "end_line": 2,
+        "category": "security",
+        "issue_type": "eval-input",
+        "rationale": "Untrusted expressions execute arbitrary Python."
+      }
+    ]
+  },
+  {
+    "id": "eval-input-clean",
+    "split": "holdout",
+    "files": {
+      "main.py": "def parse_number(text):\n    return float(text)\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "sql-injection-bug",
+    "split": "development",
+    "files": {
+      "main.py": "def find_user(connection, name):\n    return connection.execute(\"SELECT * FROM users WHERE name = '\" + name + \"'\").fetchall()\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 2,
+        "end_line": 2,
+        "category": "security",
+        "issue_type": "sql-injection",
+        "rationale": "Name is interpolated into SQL."
+      }
+    ]
+  },
+  {
+    "id": "sql-injection-clean",
+    "split": "development",
+    "files": {
+      "main.py": "def find_user(connection, name):\n    return connection.execute(\"SELECT * FROM users WHERE name = ?\", (name,)).fetchall()\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "file-lifetime-bug",
+    "split": "development",
+    "files": {
+      "main.py": "def read_text(path):\n    handle = open(path, encoding=\"utf-8\")\n    return handle.read()\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 2,
+        "end_line": 3,
+        "category": "maintainability",
+        "issue_type": "file-lifetime",
+        "rationale": "File is not explicitly closed."
+      }
+    ]
+  },
+  {
+    "id": "file-lifetime-clean",
+    "split": "development",
+    "files": {
+      "main.py": "def read_text(path):\n    with open(path, encoding=\"utf-8\") as handle:\n        return handle.read()\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "quadratic-membership-bug",
+    "split": "development",
+    "files": {
+      "main.py": "def unique(values):\n    result = []\n    for value in values:\n        if value not in result:\n            result.append(value)\n    return result\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 2,
+        "end_line": 5,
+        "category": "performance",
+        "issue_type": "quadratic-membership",
+        "rationale": "List membership creates quadratic behavior for hashable inputs."
+      }
+    ]
+  },
+  {
+    "id": "quadratic-membership-clean",
+    "split": "development",
+    "files": {
+      "main.py": "def unique(values):\n    \"\"\"Return unique hashable values in insertion order.\"\"\"\n    return list(dict.fromkeys(values))\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "late-binding-bug",
+    "split": "holdout",
+    "files": {
+      "main.py": "def multipliers():\n    return [lambda x: x * i for i in range(5)]\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 2,
+        "end_line": 2,
+        "category": "bug",
+        "issue_type": "late-binding",
+        "rationale": "All closures capture the final loop value."
+      }
+    ]
+  },
+  {
+    "id": "late-binding-clean",
+    "split": "holdout",
+    "files": {
+      "main.py": "def multipliers():\n    return [lambda x, factor=i: x * factor for i in range(5)]\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "mutate-iteration-bug",
+    "split": "development",
+    "files": {
+      "main.py": "def remove_negative(values):\n    for value in values:\n        if value < 0:\n            values.remove(value)\n    return values\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 2,
+        "end_line": 4,
+        "category": "bug",
+        "issue_type": "mutate-iteration",
+        "rationale": "Removing elements while iterating skips adjacent negatives."
+      }
+    ]
+  },
+  {
+    "id": "mutate-iteration-clean",
+    "split": "development",
+    "files": {
+      "main.py": "def remove_negative(values):\n    return [value for value in values if value >= 0]\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "wrong-sort-return-bug",
+    "split": "development",
+    "files": {
+      "main.py": "def ordered(values):\n    return values.sort()\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 2,
+        "end_line": 2,
+        "category": "bug",
+        "issue_type": "wrong-sort-return",
+        "rationale": "list.sort returns None, not the sorted list."
+      }
+    ]
+  },
+  {
+    "id": "wrong-sort-return-clean",
+    "split": "development",
+    "files": {
+      "main.py": "def ordered(values):\n    return sorted(values)\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "zero-step-bug",
+    "split": "development",
+    "files": {
+      "main.py": "def indexes(length):\n    return list(range(0, length, 0))\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 2,
+        "end_line": 2,
+        "category": "bug",
+        "issue_type": "zero-step",
+        "rationale": "Explicit zero range step raises ValueError."
+      }
+    ]
+  },
+  {
+    "id": "zero-step-clean",
+    "split": "development",
+    "files": {
+      "main.py": "def indexes(length):\n    return list(range(length))\n"
+    },
+    "labels": []
+  },
+  {
+    "id": "negative-max-bug",
+    "split": "holdout",
+    "files": {
+      "main.py": "def maximum(values):\n    best = 0\n    for value in values:\n        if value > best:\n            best = value\n    return best\n"
+    },
+    "labels": [
+      {
+        "path": "main.py",
+        "start_line": 2,
+        "end_line": 5,
+        "category": "bug",
+        "issue_type": "negative-max",
+        "rationale": "Initial zero produces the wrong maximum for all-negative inputs."
+      }
+    ]
+  },
+  {
+    "id": "negative-max-clean",
+    "split": "holdout",
+    "files": {
+      "main.py": "def maximum(values):\n    if not values:\n        raise ValueError(\"At least one value required\")\n    return max(values)\n"
+    },
+    "labels": []
+  }
+]

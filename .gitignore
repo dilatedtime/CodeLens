@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.venv/
+venv/
+data/
+backend/data/
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+.pytest_cache/
+.env
+*.pyc
+*.tsbuildinfo
+.DS_Store
+.idea/
+.vscode/
+evaluation/results*.json

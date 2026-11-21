@@ -1,0 +1,18 @@
+{
+  "properties": {
+    "markdown": {
+      "title": "Markdown",
+      "type": "string"
+    },
+    "proposed_code": {
+      "default": "",
+      "title": "Proposed Code",
+      "type": "string"
+    }
+  },
+  "required": [
+    "markdown"
+  ],
+  "title": "ArtifactOutput",
+  "type": "object"
+}

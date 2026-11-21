@@ -1,0 +1,72 @@
+{
+  "properties": {
+    "mode": {
+      "default": "hybrid",
+      "enum": [
+        "static",
+        "ai",
+        "hybrid"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "models": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 3,
+      "minItems": 1,
+      "title": "Models",
+      "type": "array"
+    },
+    "task": {
+      "default": "review",
+      "enum": [
+        "review",
+        "explanation",
+        "documentation",
+        "tests",
+        "patch",
+        "docstrings",
+        "readme"
+      ],
+      "title": "Task",
+      "type": "string"
+    },
+    "path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Path"
+    },
+    "symbol": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Symbol"
+    },
+    "audience": {
+      "default": "beginner",
+      "enum": [
+        "beginner",
+        "intermediate"
+      ],
+      "title": "Audience",
+      "type": "string"
+    }
+  },
+  "title": "JobInput",
+  "type": "object"
+}
